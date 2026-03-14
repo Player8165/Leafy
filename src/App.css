@@ -1,38 +1,30 @@
-.App {
-  text-align: center;
+/* Leafy Theme Overrides */
+
+body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Custom shimmer effect for scanning */
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.animate-shimmer {
+    animation: shimmer 2s infinite linear;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Scrollbar styling for a cleaner web app feel */
+::-webkit-scrollbar {
+    width: 6px;
 }
 
-.App-link {
-  color: #61dafb;
+::-webkit-scrollbar-track {
+    background: transparent;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.2);
+    border-radius: 10px;
 }

@@ -1,13 +1,114 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 142 30% 2%;
+    --foreground: 142 10% 98%;
+    --card: 142 30% 4%;
+    --card-foreground: 142 10% 98%;
+    --popover: 142 30% 4%;
+    --popover-foreground: 142 10% 98%;
+    --primary: 142 70% 45%;
+    --primary-foreground: 142 10% 2%;
+    --secondary: 142 20% 12%;
+    --secondary-foreground: 142 10% 98%;
+    --muted: 142 20% 12%;
+    --muted-foreground: 142 10% 65%;
+    --accent: 142 70% 45%;
+    --accent-foreground: 142 10% 2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 142 20% 15%;
+    --input: 142 20% 15%;
+    --ring: 142 70% 45%;
+    --radius: 1.5rem;
+    --warning: 38 92% 50%;
+  }
+
+  .cloud-mode {
+    --primary: 217 91% 60%;
+    --ring: 217 91% 60%;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer base {
+  * {
+    @apply border-border;
+    outline-color: hsl(var(--ring) / 0.5);
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Outfit', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background-image: 
+      radial-gradient(circle at 50% 0%, hsla(var(--primary), 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 0% 100%, hsla(var(--primary), 0.05) 0%, transparent 40%);
+    background-attachment: fixed;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+    @apply tracking-tight font-black;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+.glass-panel {
+  @apply bg-card/60 backdrop-blur-xl border border-white/5;
+}
+
+.neon-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.neon-shimmer::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    transparent 45%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 55%,
+    transparent 100%
+  );
+  animation: shimmer 5s infinite linear;
+}
+
+@keyframes shimmer {
+  0% { transform: translate(-30%, -30%); }
+  100% { transform: translate(30%, 30%); }
+}
+
+.scanning-line {
+  background: linear-gradient(to bottom, transparent, hsl(var(--primary)), transparent);
+  box-shadow: 0 0 20px hsla(var(--primary), 0.8);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/20 rounded-full;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-br from-foreground to-foreground/50;
 }
