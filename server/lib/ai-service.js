@@ -14,7 +14,7 @@ const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 //   - Current stable Groq text model, high quota, best multilingual accuracy
 // ─────────────────────────────────────────────────────────────────────────────
 
-const VISION_MODEL      = "meta-llama/llama-4-scout-17b-16e-instruct";
+const VISION_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct";
 const TRANSLATION_MODEL = "llama-3.3-70b-versatile";
 
 const DIAGNOSIS_PROMPT = `You are an expert agricultural pathologist AI.
@@ -50,7 +50,10 @@ Valid enum values:
 // ─────────────────────────────────────────────────────────────────────────────
 async function groqPost(payload) {
     const apiKey = process.env.GROQ_API_KEY;
-    if (!apiKey) throw new Error("GROQ_API_KEY environment variable is not set.");
+    if (!apiKey) {
+        console.error("[GROQ-SERVICE] Missing API Key");
+        throw new Error("GROQ_API_KEY environment variable is not set.");
+    }
 
     const response = await fetch(GROQ_API_URL, {
         method: "POST",
@@ -65,6 +68,7 @@ async function groqPost(payload) {
         let errMsg = `Groq API Error (${response.status})`;
         try {
             const errBody = await response.json();
+            console.error("[GROQ-SERVICE] API Response Error:", JSON.stringify(errBody, null, 2));
             errMsg = errBody?.error?.message || errMsg;
         } catch (_) { /* ignore parse errors */ }
         throw new Error(errMsg);
@@ -74,6 +78,7 @@ async function groqPost(payload) {
     const content = data?.choices?.[0]?.message?.content;
 
     if (!content || content.trim() === "") {
+        console.error("[GROQ-SERVICE] Received empty content from model");
         throw new Error("Groq returned an empty response. The image may be unclear or unsupported.");
     }
 
@@ -92,7 +97,7 @@ function extractJSON(rawText) {
 
     // Find outermost { ... }
     const start = stripped.indexOf("{");
-    const end   = stripped.lastIndexOf("}");
+    const end = stripped.lastIndexOf("}");
     if (start === -1 || end === -1 || end <= start) {
         throw new Error("No valid JSON object found in the AI response.");
     }

@@ -65,7 +65,12 @@
     "vaul": "^0.9.9",
     "zod": "^3.25.76",
     "@tensorflow/tfjs": "^4.22.0",
-    "@tensorflow-models/mobilenet": "^2.1.1"
+    "@tensorflow-models/mobilenet": "^2.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.1",
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",

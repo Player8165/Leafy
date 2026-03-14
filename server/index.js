@@ -9,10 +9,10 @@ import diagnosesRouter from "./routes/diagnoses.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, ".env") });
 
 const app = express();
-const PORT = process.env.PORT || 8080; // Standard for many PaaS
+const PORT = process.env.PORT || 3001; 
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
@@ -54,15 +54,21 @@ app.get("*", (req, res) => {
 });
 
 // Connect to MongoDB then start server
-mongoose
-    .connect(dbUri)
-    .then(() => {
-        console.log(`Connected to Database Successfully`);
-        app.listen(PORT, () => {
-            console.log(`Leafy Platform running on port ${PORT}`);
+if (process.env.NODE_ENV !== "production") {
+    mongoose
+        .connect(dbUri)
+        .then(() => {
+            console.log(`Connected to Database Successfully`);
+            app.listen(PORT, () => {
+                console.log(`Leafy Platform running on port ${PORT}`);
+            });
+        })
+        .catch((err) => {
+            console.error("Critical: MongoDB connection failed:", err.message);
         });
-    })
-    .catch((err) => {
-        console.error("Critical: MongoDB connection failed:", err.message);
-        process.exit(1);
-    });
+} else {
+    // On Vercel, we just connect, the serverless handler manages the rest
+    mongoose.connect(dbUri).catch(err => console.error("Database connection error:", err));
+}
+
+export default app;
