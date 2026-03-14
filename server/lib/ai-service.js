@@ -164,6 +164,7 @@ export async function translateResult(diagnosisData, targetLanguage) {
                 role: "system",
                 content: `You are a professional agricultural translator specializing in ${targetLanguage}.
 Translate ONLY the string values in the provided JSON object into ${targetLanguage}.
+Do NOT translate the values for "status" or "spreadRisk" — these must remain exactly as they are in the source.
 Do NOT translate or rename the JSON keys.
 Do NOT add extra fields.
 Return ONLY a valid JSON object with no markdown and no explanation.`

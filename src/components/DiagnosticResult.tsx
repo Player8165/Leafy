@@ -33,7 +33,7 @@ const statusConfig = {
 };
 
 export const DiagnosticResultCard = ({ result, onClose, onViewProtocol }: DiagnosticResultProps) => {
-    const config = statusConfig[result.status];
+    const config = statusConfig[result.status] || statusConfig.warning;
     const Icon = config.Icon;
 
     return (
